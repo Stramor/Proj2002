@@ -7,19 +7,6 @@ import java.util.*;
 
 
 public class ReadTxtMe {
-  /*File filetxt = new File("C:\Other\chf05.txt");
-  int i=0;
-  try {
-    Scanner sc1 = new Scanner(filetxt);
-
-    while (i<3) {
-      String currentLine = sc1.nextLine();
-      System.out.println(currentLine);
-    }
-  }
-  catch (FileNotFoundException e) {
-    e.printStackTrace();
-  }*/
    ReadTxtMe() {
     BufferedReader inbuf;
     int i=0;
