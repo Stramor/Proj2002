@@ -35,7 +35,7 @@ public class Graph {
     JFrame frame = new JFrame("MinimalStaticChart");
     frame.getContentPane().add(new ChartPanel(chart));
     frame.setSize(800, 500);
-    frame.setVisible(true);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    WindowUtils.centerOnScreenAndSetVisible(frame);
   }
 }
