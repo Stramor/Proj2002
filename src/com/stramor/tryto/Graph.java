@@ -1,8 +1,12 @@
 package com.stramor.tryto;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,24 +17,18 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class Graph {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     String content = ReadingF.readFile("01.txt");
 
-    String[] dataStr = content.split("\\s+");
-    System.out.println(content);
-
-    double numb;
-
     XYSeries series = new XYSeries("sin(a)");
-    for (int i = 0; i < dataStr.length; i++) {
-      if (dataStr[i] != null && !dataStr[i].isEmpty()) {
-        numb = Double.parseDouble(dataStr[i]);
-        System.out.println(numb);
-        series.add(i, numb);
-        //series.add(i, Math.cos(i));
-      }
+    int i = 0;
+    for (String s : Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().split(content)) {
+      double numb = Double.parseDouble(s);
+      System.out.println(numb);
+      series.add(i, numb);
+      //series.add(i, Math.cos(i));
+      i++;
     }
-    System.out.println(dataStr.length);
 
     XYDataset xyDataset = new XYSeriesCollection(series);
     JFreeChart chart = ChartFactory.createXYLineChart("", "i", "mV", xyDataset, PlotOrientation.VERTICAL, false, true, true);
@@ -40,5 +38,4 @@ public class Graph {
     frame.setVisible(true);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
   }
-
 }
