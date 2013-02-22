@@ -34,8 +34,8 @@ public class Graph {
     JFreeChart chart = ChartFactory.createXYLineChart("", "i", "mV", xyDataset, PlotOrientation.VERTICAL, false, true, true);
     JFrame frame = new JFrame("MinimalStaticChart");
     frame.getContentPane().add(new ChartPanel(chart));
-    frame.setSize(800, 500);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    frame.setSize(WindowUtils.getDimensionFromPercent(50, 50));
     WindowUtils.centerOnScreenAndSetVisible(frame);
   }
 }
