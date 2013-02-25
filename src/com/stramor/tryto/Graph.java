@@ -15,23 +15,33 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+/**
+ *
+ */
 public class Graph {
 
   public static void main(String[] args) throws IOException {
     String content = ReadingF.readFile("01.txt");
 
     XYSeries series = new XYSeries("sin(a)");
+    XYSeries series1 = new XYSeries("sin(a)+500");
+    Double[] sigMassive = new Double[10000];
     int i = 0;
     for (String s : Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().split(content)) {
       double numb = Double.parseDouble(s);
-      System.out.println(numb);
+      sigMassive[i]=numb;
+      //System.out.println(numb);
       series.add(i, numb);
-      //series.add(i, Math.cos(i));
+      series1.add(i, sigMassive[i]+500);
       i++;
     }
+    i=0;
+    System.out.println(ProcessECG.findMax(sigMassive));
 
-    XYDataset xyDataset = new XYSeriesCollection(series);
-    JFreeChart chart = ChartFactory.createXYLineChart("", "i", "mV", xyDataset, PlotOrientation.VERTICAL, false, true, true);
+    XYSeriesCollection xydataset = new XYSeriesCollection();
+    xydataset.addSeries(series);
+    xydataset.addSeries(series1);
+    JFreeChart chart = ChartFactory.createXYLineChart("", "i", "mV", xydataset, PlotOrientation.VERTICAL, true, true, true);
     JFrame frame = new JFrame("MinimalStaticChart");
     frame.getContentPane().add(new ChartPanel(chart));
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
