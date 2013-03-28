@@ -4,21 +4,16 @@ import javax.bluetooth.*;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.Enumeration;
-import javax.obex.*;
+import java.util.logging.Logger;
 
 
 public class ServicesSearchTry {
-  static final UUID OBEX_OBJECT_PUSH = new UUID(0x1105);
-  static final UUID OBEX_FILE_TRANSFER = new UUID(0x1106);
   public static final Vector serviceFound = new Vector();
 
   public static void main(String[] args) throws IOException, InterruptedException {
     BlueFind.main(null);
     serviceFound.clear();
-    UUID serviceUUID = OBEX_OBJECT_PUSH;
-    if ((args != null) && (args.length > 0)) {
-      serviceUUID = new UUID(args[0], false);
-    }
+
     final Object serviceSearchCompletedEvent = new Object();
     DiscoveryListener listener = new DiscoveryListener() {
       @Override
@@ -39,6 +34,7 @@ public class ServicesSearchTry {
           if (url == null) {continue;}
           serviceFound.add(url);
           DataElement serviceName = servRecord[i].getAttributeValue(0x0100);
+          Logger.getAnonymousLogger().info("" + servRecord[i]);
           if (serviceName != null) {
             System.out.println("service " + serviceName.getValue() + " found " + url);
           } else {
@@ -55,15 +51,12 @@ public class ServicesSearchTry {
           serviceSearchCompletedEvent.notifyAll();
         }
       }
-
     };
 
-    UUID[] searchUuidSet = new UUID[] { serviceUUID };
-    int[] attrIDs = new int[] {
-        0x0100
-    };
+    UUID[] searchUuidSet = new UUID[] { new UUID(0x003), new UUID(0x1101), new UUID(0x1002)};
+    int[] attrIDs =null;
 
-    for (Enumeration en = BlueFind.devicesDiscovered.elements(); en.hasMoreElements();){
+    for (Enumeration en = BlueFind.devices.elements(); en.hasMoreElements();){
       RemoteDevice btDevice = (RemoteDevice)en.nextElement();
 
       synchronized (serviceSearchCompletedEvent) {
