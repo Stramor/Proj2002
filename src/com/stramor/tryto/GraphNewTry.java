@@ -19,7 +19,7 @@ import sun.awt.VariableGridLayout;
 /**
  *
  */
-public class Graph {
+public class GraphNewTry {
 
   public static void main(String[] args) throws IOException {
     String content = ReadingF.readFile("01.txt");
@@ -54,6 +54,7 @@ public class Graph {
     JFreeChart chart = ChartFactory.createXYLineChart("", "i", "mV", xydataset, PlotOrientation.VERTICAL, true, true, true);
 
     JFrame frame = new JFrame("MinimalStaticChart");
+    FlowLayout experimentLayout = new FlowLayout();
 
     JPanel panelOne = new JPanel();
     panelOne.setVisible(true);
@@ -66,11 +67,11 @@ public class Graph {
 
     frame.getContentPane().add(panelOne);
     frame.getContentPane().add(panelTwo);
-    frame.setLayout(new GridLayout(4,1));
+    frame.setLayout(new FlowLayout());
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(WindowUtils.getDimensionFromPercent(50, 70));
     WindowUtils.centerOnScreenAndSetVisible(frame);
-    //frame.pack();
+    frame.pack();
 
 
     System.out.println(frame.getSize());
