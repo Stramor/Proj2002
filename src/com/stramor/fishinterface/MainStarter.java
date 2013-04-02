@@ -20,6 +20,7 @@ public class MainStarter {
     }
     series = BuildWindow.bindSeries(inputSignal,nameSig, maximumOfSignal);
     BuildWindow.Drawing(series);
+
     System.out.println(MaxOfSignal.findMax(inputSignal));
   }
 
