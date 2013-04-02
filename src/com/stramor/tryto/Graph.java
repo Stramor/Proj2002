@@ -10,10 +10,13 @@ import com.google.common.base.Splitter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.FloatDimension;
 import sun.awt.VariableGridLayout;
 
 /**
@@ -27,12 +30,11 @@ public class Graph {
     // Initialization
     JButton button = new JButton("Click");
     button.setVisible(true);
-    button.setLocation(0,0);
-    button.setSize(200,100);
+    button.setPreferredSize(new Dimension(150,50));
 
-    double heightWindow = 0;
-    //button.addActionListener(new ActionListener());
-    //
+    JButton startSearch = new JButton("Start Search");
+    startSearch.setVisible(true);
+    startSearch.setPreferredSize(new Dimension(150,50));
 
     XYSeries series = new XYSeries("sin(a)");
     XYSeries series1 = new XYSeries("sin(a)+500");
@@ -41,7 +43,6 @@ public class Graph {
     for (String s : Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().split(content)) {
       double numb = Double.parseDouble(s);
       sigMassive[i]=numb;
-      //System.out.println(numb);
       series.add(i, numb);
       series1.add(i, sigMassive[i]+500);
       i++;
@@ -53,25 +54,31 @@ public class Graph {
     xydataset.addSeries(series1);
     JFreeChart chart = ChartFactory.createXYLineChart("", "i", "mV", xydataset, PlotOrientation.VERTICAL, true, true, true);
 
+
     JFrame frame = new JFrame("MinimalStaticChart");
 
     JPanel panelOne = new JPanel();
     panelOne.setVisible(true);
+    panelOne.setBackground(new Color(60, 80, 90).brighter());
     panelOne.add(button);
-    //panelOne.setSize(WindowUtils.getDimensionFromPercent(4,2));
+    panelOne.add(startSearch);
+    panelOne.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+    panelOne.setAlignmentX(Component.CENTER_ALIGNMENT);
 
     JPanel panelTwo = new JPanel();
-    panelTwo.add(new ChartPanel(chart));
+    ChartPanel chPanel = new ChartPanel(chart);
+    chPanel.setPreferredSize(WindowUtils.getDimensionFromPercent(45, 50));
+    panelTwo.add(chPanel);
+    panelTwo.setBackground(new Color(255,255,255));
     panelTwo.setVisible(true);
 
     frame.getContentPane().add(panelOne);
     frame.getContentPane().add(panelTwo);
-    frame.setLayout(new GridLayout(4,1));
+    frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(WindowUtils.getDimensionFromPercent(50, 70));
+    frame.setResizable(false);
     WindowUtils.centerOnScreenAndSetVisible(frame);
-    //frame.pack();
-
 
     System.out.println(frame.getSize());
   }
